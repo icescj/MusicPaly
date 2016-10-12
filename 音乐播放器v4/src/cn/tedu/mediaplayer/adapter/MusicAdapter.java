@@ -182,7 +182,7 @@ public class MusicAdapter extends BaseAdapter {
 		String filename = path.substring(path.lastIndexOf("/"));
 		File file = new File(context.getCacheDir(), "iamges" + filename);
 		Bitmap b = bitmaputil.loadBitmap(file);
-		if (b!=null) {
+		if (b != null) {
 			holder.ivAlbum.setImageBitmap(b);
 			cache.put(path, new SoftReference<Bitmap>(b));
 			return convertView;

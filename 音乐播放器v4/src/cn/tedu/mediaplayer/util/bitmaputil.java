@@ -23,7 +23,7 @@ public class bitmaputil {
 	}
 
 	/**
-	 * 把bitmap压缩成jpg格式保持到file文件中
+	 * 把bitmap压缩成jpg格式保持到file文件中（存放入cache文件缓存中）
 	 * 
 	 * @throws FileNotFoundException
 	 */
