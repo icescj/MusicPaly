@@ -1,8 +1,14 @@
 package cn.tedu.mediaplayer.adapter;
 
+import java.io.File;
 import java.io.InputStream;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.security.auth.Subject;
 
 import android.app.PendingIntent.OnFinished;
 import android.content.Context;
@@ -12,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.WorkSource;
 import android.provider.UserDictionary.Words;
+import android.text.style.SubscriptSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +41,7 @@ public class MusicAdapter extends BaseAdapter {
 	private List<Music> musics;
 	private ListView listview;
 	private LayoutInflater inflater;
+	private Map<String, SoftReference<Bitmap>> cache = new HashMap<String, SoftReference<Bitmap>>();
 	private Handler hander = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -110,6 +118,14 @@ public class MusicAdapter extends BaseAdapter {
 			InputStream is = HttpUtils.get(path);
 			// bitmap = BitmapFactory.decodeStream(is);
 			bitmap = bitmaputil.loadbitmap(is, 50, 50);
+			// 将bitmap存入hasmap
+			SoftReference<Bitmap> value;
+			cache.put(path, new SoftReference<Bitmap>(bitmap));
+			// 将bitmap存入文件缓存
+			String filename = path.substring(path.lastIndexOf("/"));
+			File file = new File(context.getCacheDir(), "iamges" + filename);
+			Log.i("tag", "图片路径" + file + "");
+			bitmaputil.save(bitmap, file);
 			return bitmap;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -153,6 +169,24 @@ public class MusicAdapter extends BaseAdapter {
 		String path = m.getPic_small();
 		// 图片路径打标记
 		holder.ivAlbum.setTag(path);
+		// 去cache中取bimap
+		SoftReference<Bitmap> ref = cache.get(path);
+		if (ref != null) {
+			Bitmap b = ref.get();
+			if (b != null) {
+				holder.ivAlbum.setImageBitmap(b);
+				return convertView;
+			}
+		}
+		// 文件存储中寻找是否有图片
+		String filename = path.substring(path.lastIndexOf("/"));
+		File file = new File(context.getCacheDir(), "iamges" + filename);
+		Bitmap b = bitmaputil.loadBitmap(file);
+		if (b!=null) {
+			holder.ivAlbum.setImageBitmap(b);
+			cache.put(path, new SoftReference<Bitmap>(b));
+			return convertView;
+		}
 		Imageloadtask task = new Imageloadtask();
 		// 第一步骤 添加task中的path属性
 		task.path = path;
