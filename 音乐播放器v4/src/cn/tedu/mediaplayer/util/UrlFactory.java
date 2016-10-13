@@ -1,17 +1,29 @@
 package cn.tedu.mediaplayer.util;
+
 /**
- * url¹¤³§Àà
- * ÓÃÓÚÉú²úurlµØÖ·×Ö·û´®
+ * urlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½urlï¿½ï¿½Ö·ï¿½Ö·ï¿½ï¿½ï¿½
  */
 public class UrlFactory {
 	/**
-	 * »ñÈ¡ĞÂ¸è°ñÇëÇóµØÖ·
-	 * @param offset   ÆğÊ¼Î»ÖÃ
-	 * @param size		ÒôÀÖ¸öÊı
+	 * ï¿½ï¿½È¡ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·
+	 * 
+	 * @param offset
+	 *            ï¿½ï¿½Ê¼Î»ï¿½ï¿½
+	 * @param size
+	 *            ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½
 	 * @return
 	 */
-	public static String getNewMusicListUrl(int offset, int size){
-		String url = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=xml&type=1&offset="+offset+"&size="+size;
+	public static String getNewMusicListUrl(int offset, int size) {
+		String url = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.billboard.billList&format=xml&type=1&offset="
+				+ offset + "&size=" + size;
+		return url;
+	}
+
+	// åˆ©ç”¨songidè·å–Songinfoåœ°å€
+	public static String getSongInfoUrl(String songId) {
+		// TODO Auto-generated method stub
+		String url = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=qianqian&version=2.1.0&method=baidu.ting.song.getInfos&format=json&songid="
+				+ songId + "&ts=1408284347323&e=JoN56kTXnnbEpd9MVczkYJCSx%2FE1mkLx%2BPMIkTcOEu4%3D&nw=2&ucf=1&res=1";
 		return url;
 	}
 }

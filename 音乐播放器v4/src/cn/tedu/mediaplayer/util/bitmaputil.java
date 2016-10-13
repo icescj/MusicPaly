@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.os.AsyncTask;
 
 public class bitmaputil {
 
@@ -76,4 +77,34 @@ public class bitmaputil {
 		return bitmap;
 	}
 
+	public static void loadBitmap(final String path, final BitmapCallback bitmapCallback) {
+		// TODO Auto-generated method stub
+		AsyncTask<String, String, Bitmap> task = new AsyncTask<String, String, Bitmap>() {
+
+			@Override
+			protected Bitmap doInBackground(String... params) {
+				// TODO Auto-generated method stub
+				try {
+					InputStream is = HttpUtils.get(path);
+					Bitmap b = BitmapFactory.decodeStream(is);
+					return b;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Bitmap result) {
+				// TODO Auto-generated method stub
+				bitmapCallback.onBitmaploaded(result);
+			}
+		};
+		task.execute();
+	}
+
+	public interface BitmapCallback {
+		void onBitmaploaded(Bitmap bitmap);
+	}
 }

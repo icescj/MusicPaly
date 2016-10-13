@@ -1,7 +1,9 @@
 package cn.tedu.mediaplayer.entity;
 
+import java.util.List;
+
 /**
- * ÃèÊöÒ»Ê×ÒôÀÖ
+ * ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 public class Music {
 	private String artist_id;
@@ -17,6 +19,24 @@ public class Music {
 	private String album_id;
 	private String album_title;
 	private String artist_name;
+	private List<SongUrl> urls;
+	private SongInfo info;
+
+	public List<SongUrl> getUrls() {
+		return urls;
+	}
+
+	public void setUrls(List<SongUrl> urls) {
+		this.urls = urls;
+	}
+
+	public SongInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(SongInfo info) {
+		this.info = info;
+	}
 
 	public Music() {
 		// TODO Auto-generated constructor stub
@@ -149,5 +169,5 @@ public class Music {
 	public String toString() {
 		return this.title;
 	}
-	
+
 }

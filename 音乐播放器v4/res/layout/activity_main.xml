@@ -18,19 +18,19 @@
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/textView" >
+        android:layout_below="@+id/textView"
+        android:orientation="horizontal" >
 
         <RadioButton
             android:id="@+id/radioNew"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:checked="true"
             android:layout_weight="1"
             android:button="@null"
-            android:textColor="@drawable/selector_tab"
+            android:checked="true"
             android:gravity="center"
-            android:text="新歌榜" />
+            android:text="新歌榜"
+            android:textColor="@drawable/selector_tab" />
 
         <RadioButton
             android:id="@+id/radioHot"
@@ -38,16 +38,50 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:button="@null"
-            android:textColor="@drawable/selector_tab"
             android:gravity="center"
-            android:text="热歌榜" />
-
+            android:text="热歌榜"
+            android:textColor="@drawable/selector_tab" />
     </RadioGroup>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_bottom"
         android:layout_below="@+id/radioGroup" />
-    
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="#d45924" >
+
+        <cn.tedu.mediaplayer.ui.CircleImageView
+            android:id="@+id/circle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="3dp" >
+        </cn.tedu.mediaplayer.ui.CircleImageView>
+
+        <TextView
+            android:id="@+id/musicname"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/circle"
+            android:text="音乐名字" />
+
+        <TextView
+            android:id="@+id/musicauthor"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/musicname"
+            android:layout_toRightOf="@+id/circle"
+            android:gravity="center"
+            android:text="艺人" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

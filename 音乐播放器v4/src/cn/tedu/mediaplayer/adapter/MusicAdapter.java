@@ -1,25 +1,7 @@
 package cn.tedu.mediaplayer.adapter;
 
-import java.io.File;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.security.auth.Subject;
-
-import android.app.PendingIntent.OnFinished;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
-import android.os.WorkSource;
-import android.provider.UserDictionary.Words;
-import android.text.style.SubscriptSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import cn.tedu.mediaplayer.R;
 import cn.tedu.mediaplayer.entity.Music;
-import cn.tedu.mediaplayer.util.HttpUtils;
 import cn.tedu.mediaplayer.util.ImageLoad;
-import cn.tedu.mediaplayer.util.bitmaputil;
 
 /**
  * 音乐列表适配器

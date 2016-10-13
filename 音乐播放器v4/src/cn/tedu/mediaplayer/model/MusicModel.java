@@ -3,33 +3,41 @@ package cn.tedu.mediaplayer.model;
 import java.io.InputStream;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.util.Log;
 import cn.tedu.mediaplayer.entity.Music;
+import cn.tedu.mediaplayer.entity.SongInfo;
+import cn.tedu.mediaplayer.entity.SongUrl;
 import cn.tedu.mediaplayer.util.HttpUtils;
+import cn.tedu.mediaplayer.util.JsonParser;
 import cn.tedu.mediaplayer.util.UrlFactory;
 import cn.tedu.mediaplayer.util.XmlParser;
 
 /**
- * ·â×°ÒôÀÖÏà¹ØÒµÎñ  
+ * ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½
  */
 public class MusicModel {
 	/**
-	 * »ñÈ¡ĞÂ¸è°ñÁĞ±í  ĞèÒª·¢ËÍhttpÇëÇó
-	 * ¸Ã²Ù×÷ĞèÒªÔÚ¹¤×÷Ïß³ÌÖĞÖ´ĞĞ 
-	 * @param offset  ÆğÊ¼Î»ÖÃ
-	 * @param size	   ²éÑ¯ÊıÁ¿
+	 * ï¿½ï¿½È¡ï¿½Â¸ï¿½ï¿½ï¿½Ğ±ï¿½ ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½httpï¿½ï¿½ï¿½ï¿½ ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ è·å¾—æ–°æ­Œæ¦œåˆ—è¡¨ å‘é€httpè¯·æ±‚
+	 * 
+	 * @param offset
+	 *            ï¿½ï¿½Ê¼Î»ï¿½ï¿½
+	 * @param size
+	 *            ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 	 */
 	public void getNewMusicList(final int offset, final int size, final MusicListCallback callback) {
-		AsyncTask<String, String, List<Music>> task = new AsyncTask<String, String, List<Music>>(){
-			/** ×ÓÏß³ÌÖĞÖ´ĞĞ ¿ÉÒÔÖ±½Ó·¢ËÍhttpÇëÇó */
+		AsyncTask<String, String, List<Music>> task = new AsyncTask<String, String, List<Music>>() {
+			/** ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó·ï¿½ï¿½ï¿½httpï¿½ï¿½ï¿½ï¿½ */
 			public List<Music> doInBackground(String... params) {
 				try {
-					//»ñÈ¡µØÖ·
-					String url =UrlFactory.getNewMusicListUrl(offset, size);
-					//·¢ËÍhttpÇëÇó
-					InputStream is=HttpUtils.get(url);
-					//½âÎöisÖĞµÄxmlÊı¾İ »ñÈ¡List<Music>
+					// ï¿½ï¿½È¡ï¿½ï¿½Ö·
+					String url = UrlFactory.getNewMusicListUrl(offset, size);
+					// ï¿½ï¿½ï¿½ï¿½httpï¿½ï¿½ï¿½ï¿½
+					InputStream is = HttpUtils.get(url);
+					// ï¿½ï¿½ï¿½ï¿½isï¿½Ğµï¿½xmlï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¡List<Music>
 					List<Music> musics = XmlParser.parseMusicList(is);
 					return musics;
 				} catch (Exception e) {
@@ -37,30 +45,73 @@ public class MusicModel {
 				}
 				return null;
 			}
-			/** µ±doInBackground·½·¨Ö´ĞĞÍê±Ïºó 
-			 * ½«»áÔÚÖ÷Ïß³ÌÖĞÖ´ĞĞ¸Ã·½·¨ */
+
+			/**
+			 * ï¿½ï¿½doInBackgroundï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ïºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½Ö´ï¿½Ğ¸Ã·ï¿½ï¿½ï¿½
+			 */
 			public void onPostExecute(List<Music> musics) {
-				//Log.i("info", ""+musics.toString());
+				// Log.i("info", ""+musics.toString());
 				callback.onMusicListLoaded(musics);
 			}
 		};
 		task.execute();
 	}
-	
+
 	/**
-	 * »Øµ÷½Ó¿Ú
+	 * ï¿½Øµï¿½ï¿½Ó¿ï¿½
 	 */
-	public interface MusicListCallback{
+	public interface MusicListCallback {
 		/**
-		 * »Øµ÷·½·¨  µ±ÒôÀÖÁĞ±í¼ÓÔØÍê±Ïºó
-		 * ½«»áµ÷ÓÃ¸Ã»Øµ÷·½·¨ 
-		 * °ÑµÃµ½µÄÒôÀÖÁĞ±í½á¹û½»¸øµ÷ÓÃÕß
-		 * Ö´ĞĞºóĞøÒµÎñ¡£
+		 * ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸Ã»Øµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÑµÃµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		 * Ö´ï¿½Ğºï¿½ï¿½ï¿½Òµï¿½ï¿½
 		 */
 		void onMusicListLoaded(List<Music> musics);
 	}
-	
+
+	// è·å–éŸ³ä¹songidå’Œsonginfo
+	public void loadSonginfoBysong(final String songId, final SonginfoCallback callback) {
+		AsyncTask<String, String, Music> task = new AsyncTask<String, String, Music>() {
+			@Override
+			protected Music doInBackground(String... params) {
+				// TODO Auto-generated method stub
+				Music m = new Music();
+				try {
+					String path = UrlFactory.getSongInfoUrl(songId);
+					InputStream is = HttpUtils.get(path);
+					// æŠŠè¾“å…¥æµä¸­çš„æ•°æ®è§£æä¸ºjsonå­—ç¬¦ä¸²
+					String json = HttpUtils.isToString(is);
+					// è§£æjson
+					JSONObject obj = new JSONObject(json);
+					/******* è§£æ urls ********/
+					// è·å¾—urlæ•°ç»„
+					JSONArray urlary = obj.getJSONObject("songurl").getJSONArray("url");
+					// è§£æé¢urlaryæ”¾å…¥listé›†åˆ
+					Log.i("tag", "é©¬ä¸Šåˆ°è§£æurls");
+					List<SongUrl> urls = JsonParser.parserUrls(urlary);
+					/******* è§£æinfo ********/
+					JSONObject infoobj = obj.getJSONObject("songinfo");
+					// æŠŠinfoobjè§£ææˆSongInfo
+					SongInfo info = JsonParser.parserSonInfo(infoobj);
+					/***************/
+					m.setUrls(urls);
+					m.setInfo(info);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return m;
+			}
+
+			@Override
+			protected void onPostExecute(Music result) {
+				// TODO Auto-generated method stub
+				callback.onSonginfoLoaded(result.getUrls(), result.getInfo());
+			}
+		};
+		task.execute();
+	}
+
+	public interface SonginfoCallback {
+		void onSonginfoLoaded(List<SongUrl> urls, SongInfo info);
+	}
 }
-
-
-
