@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnScrollChangedListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 import cn.tedu.mediaplayer.R;
 import cn.tedu.mediaplayer.adapter.MusicAdapter;
 import cn.tedu.mediaplayer.app.Musicapplication;
@@ -26,7 +30,7 @@ import cn.tedu.mediaplayer.service.PlayMusicservice.MucsicBinder;
 /**
  * �����¸���б���� Fragment
  */
-public class NewMusicListFragment extends Fragment implements OnItemClickListener {
+public class NewMusicListFragment extends Fragment implements OnItemClickListener, OnScrollListener {
 	private ListView listView;
 	private MusicAdapter adapter;
 	private List<Music> musics;
@@ -41,6 +45,7 @@ public class NewMusicListFragment extends Fragment implements OnItemClickListene
 		// 初始化frament中的控件
 		listView = (ListView) view.findViewById(R.id.listView);
 		listView.setOnItemClickListener(this);
+		 listView.setOnScrollListener(this);
 		// 调用业务底层代码，访问新歌榜列表
 		model = new MusicModel();
 		model.getNewMusicList(0, 20, new MusicListCallback() {
@@ -65,7 +70,7 @@ public class NewMusicListFragment extends Fragment implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		Music m = musics.get(arg2);
+		final Music m = musics.get(arg2);
 		String songId = m.getSong_id();
 		Log.i("tag", "songId:" + songId);
 		switch (arg0.getId()) {
@@ -79,6 +84,8 @@ public class NewMusicListFragment extends Fragment implements OnItemClickListene
 				@Override
 				public void onSonginfoLoaded(List<SongUrl> urls, SongInfo info) {
 					// 回到主线程 更新UI 播放音乐
+					m.setUrls(urls);
+					m.setInfo(info);
 					String url = urls.get(0).getFile_link();
 					binder.playmusic(url);
 				}
@@ -90,5 +97,47 @@ public class NewMusicListFragment extends Fragment implements OnItemClickListene
 	public void setbinder(MucsicBinder binder) {
 		// TODO Auto-generated method stub
 		this.binder = binder;
+	}
+
+	/*** 分页加载 */
+	private boolean isBottom = false;
+	private boolean requesting = false;
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+		switch (scrollState) {
+		case OnScrollListener.SCROLL_STATE_IDLE:
+			if (isBottom && !requesting) {
+				// 加载下一页
+				requesting = true;// 已经在执行加载音乐了
+				model.getNewMusicList(musics.size(), 20, new MusicListCallback() {
+					@Override
+					public void onMusicListLoaded(List<Music> musics) {
+						// TODO Auto-generated method stub
+						if (musics.isEmpty()) {
+							Toast.makeText(getActivity(), "无歌曲加载了", Toast.LENGTH_SHORT).show();
+							return;
+						}
+						// 把服务端返回的下一页数据
+						// 都添加到当前正在使用的musics集合
+						NewMusicListFragment.this.musics.addAll(musics);
+						adapter.notifyDataSetChanged();
+						requesting = false;
+					}
+				});
+			}
+			break;
+		}
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// TODO Auto-generated method stub
+		if (firstVisibleItem + visibleItemCount == totalItemCount) {
+			isBottom = true;
+		} else {
+			isBottom = false;
+		}
 	}
 }

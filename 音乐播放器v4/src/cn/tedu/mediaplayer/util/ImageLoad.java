@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -50,7 +51,7 @@ public class ImageLoad {
 
 	public ImageLoad(Context context, AbsListView listview) {
 		this.context = context;
-
+		this.listview = listview;
 		// 启动线程，处理task集合内的图片路径（即获取图片）
 		workThread = new Thread() {
 			public void run() {
@@ -128,7 +129,6 @@ public class ImageLoad {
 	/*** 获取bitmap方法 */
 	protected Bitmap loadbitmap(String path) {
 		// TODO Auto-generated method stub
-
 		Bitmap bitmap;
 		try {
 			// HttpUtils.get(path) 获取path的输入流

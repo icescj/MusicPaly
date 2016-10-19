@@ -1,5 +1,6 @@
 package cn.tedu.mediaplayer.entity;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,6 +22,15 @@ public class Music {
 	private String artist_name;
 	private List<SongUrl> urls;
 	private SongInfo info;
+	private HashMap<String, String> lrc;
+
+	public HashMap<String, String> getLrc() {
+		return lrc;
+	}
+
+	public void setLrc(HashMap<String, String> lrc) {
+		this.lrc = lrc;
+	}
 
 	public List<SongUrl> getUrls() {
 		return urls;

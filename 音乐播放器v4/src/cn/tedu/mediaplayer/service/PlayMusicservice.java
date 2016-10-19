@@ -12,6 +12,7 @@ import cn.tedu.mediaplayer.util.GlobalConsts;
 
 public class PlayMusicservice extends Service {
 	private MediaPlayer player = new MediaPlayer();
+	private boolean isLoop = true;
 
 	// 绑定serice的时候，第一次执行且执行一次
 	@Override
@@ -29,12 +30,33 @@ public class PlayMusicservice extends Service {
 				sendBroadcast(intent);
 			}
 		});
+		new Thread() {
+			public void run() {
+				while (isLoop) {
+					try {
+						sleep(1000);
+						if (player.isPlaying()) {
+							int total = player.getDuration();
+							int current = player.getCurrentPosition();
+							Intent intent = new Intent("ACTION_UPDATE_MUSIC_PROGRESS");
+							intent.putExtra("total", total);
+							intent.putExtra("current", current);
+							sendBroadcast(intent);
+						}
+					} catch (Exception e) {
+					}
+				}
+			};
+		}.start();
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
+		// 释放资源
 		player.release();
+		// 停止线程
+		isLoop = true;
 		super.onDestroy();
 	}
 
@@ -45,12 +67,19 @@ public class PlayMusicservice extends Service {
 	}
 
 	public class MucsicBinder extends Binder {
+		/** 播放状态 */
+		public Boolean isplaying() {
+			return player.isPlaying() ? true : false;
+		}
+
 		/** 暂停或者播放 */
 		public void playorpause() {
 			if (player.isPlaying()) {
 				player.pause();
+
 			} else {
 				player.start();
+
 			}
 
 		}

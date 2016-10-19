@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+import cn.tedu.mediaplayer.entity.Music;
 import cn.tedu.mediaplayer.entity.SongInfo;
 import cn.tedu.mediaplayer.entity.SongUrl;
 
@@ -69,6 +70,22 @@ public class JsonParser {
 		info.setSong_id(infoobj.getString("song_id"));
 		info.setTitle(infoobj.getString("title"));
 		return info;
+	}
+
+	public static List<Music> parserSeachResult(JSONArray ary) throws JSONException {
+		// TODO Auto-generated method stub
+		List<Music> musics = new ArrayList<Music>();
+		for (int i = 0; i < ary.length(); i++) {
+			JSONObject o = ary.getJSONObject(i);
+			Music m = new Music();
+			m.setTitle(o.getString("title"));
+			m.setSong_id(o.getString("song_id"));
+			m.setAuthor(o.getString("author"));
+			m.setArtist_id(o.getString("artist_id"));
+			m.setAlbum_title(o.getString("album_title"));
+			musics.add(m);
+		}
+		return musics;
 	}
 
 }

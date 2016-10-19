@@ -22,7 +22,6 @@ public class MusicAdapter extends BaseAdapter {
 	private List<Music> musics;
 	private ListView listview;
 	private LayoutInflater inflater;
-
 	private ImageLoad imageload;
 
 	public MusicAdapter(Context context, List<Music> musics, ListView listview) {
@@ -66,9 +65,7 @@ public class MusicAdapter extends BaseAdapter {
 		holder.tvSinger.setText(m.getAuthor());
 		// 获取图片网络路径
 		String path = m.getPic_small();
-
 		imageload.display(holder.ivAlbum, path);
-
 		return convertView;
 	}
 

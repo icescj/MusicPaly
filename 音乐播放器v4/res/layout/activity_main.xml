@@ -14,6 +14,13 @@
         android:textColor="#ffffff"
         android:textSize="18sp" />
 
+    <Button
+        android:id="@+id/btn_tosearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="搜索" />
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
@@ -61,7 +68,8 @@
             android:id="@+id/circle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="3dp" >
+            android:layout_margin="3dp"
+            android:src="@drawable/pic_album_default" >
         </cn.tedu.mediaplayer.ui.CircleImageView>
 
         <TextView
@@ -69,8 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_marginTop="3dp"
-            android:gravity="center"
             android:layout_toRightOf="@+id/circle"
+            android:gravity="center"
             android:text="音乐名字" />
 
         <TextView
@@ -81,7 +89,167 @@
             android:layout_toRightOf="@+id/circle"
             android:gravity="center"
             android:text="艺人" />
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_playmusic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0000ff"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/ivPMBackgroud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pic_album_default" />
+
+        <TextView
+            android:id="@+id/tv_musicname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:text="歌曲名称"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_musicauthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_musicname"
+            android:gravity="center_horizontal"
+            android:text="歌曲艺人"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <cn.tedu.mediaplayer.ui.CircleImageView
+            android:id="@+id/iv_music"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/tv_musicauthor"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/pic_album_default" />
+
+        <TextView
+            android:id="@+id/tv_mlc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_music"
+            android:gravity="center_horizontal"
+            android:text="歌词歌词歌词歌词"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/ib_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/selector_item_previous" />
+
+            <ImageButton
+                android:id="@+id/ib_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/selector_item_play" />
+
+            <ImageButton
+                android:id="@+id/ib_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/selector_item_next" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.SeekBar.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_mlc"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dip" />
+
+        <TextView
+            android:id="@+id/tvmusicstart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/seekBar"
+            android:layout_marginLeft="10dp"
+            android:text="00:00"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/tvmusicend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/seekBar"
+            android:layout_marginRight="10dp"
+            android:text="05:00"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_SearchMusic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff0000"
+        android:visibility="invisible" >
+
+        <LinearLayout
+            android:id="@+id/ll_music"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ff0000"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消" />
+
+            <EditText
+                android:id="@+id/et_keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="输入歌曲名" />
+
+            <Button
+                android:id="@+id/btn_Search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_searchmusic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ll_music" >
+        </ListView>
     </RelativeLayout>
 
 </RelativeLayout>

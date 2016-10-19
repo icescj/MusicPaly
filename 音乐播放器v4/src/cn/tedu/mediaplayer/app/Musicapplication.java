@@ -33,4 +33,14 @@ public class Musicapplication extends Application {
 	public Music getCurrentMusic() {
 		return this.musics.get(position);
 	}
+
+	/** 跳转上一首歌 */
+	public void preMusic() {
+		position = position == 0 ? 0 : position - 1;
+	}
+
+	/** 跳转上一首歌 */
+	public void nextMusic() {
+		position = position == musics.size() - 1 ? 0 : position + 1;
+	}
 }
